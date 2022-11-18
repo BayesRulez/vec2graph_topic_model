@@ -1,2 +1,9 @@
 # vec2graph_topic_model
- Topic modelling on short-texts
+
+Topic models take a corpus of human-readable text documents and cluster them. The idea is that documents are assigned to the same cluster when they are "about" the same topic. The field has advanced a long way since the introduction of Latent Dirichlet Allocation back in 2003. These days deep learning topic models are in vogue. In particular, BERT-based topic models are appealing because they can naturally handle out-of-vocabulary tokens and generate powerful text embeddings.
+
+This notebook is a stripped-down version of something I created for finding granular topics in short-form social media texts. I had been experimenting with many published models - including Bayesian ones, non-negative matrix factrisation methods and deep-learning based ones but was not getting the results I wanted. My particular use case required low-level, granular topics - essentially I wanted to define a topic as a particular variation of a claim, an event or a specifc belief. Everything I tried was either returning broader topics ("COVID 19", "war in ukraine", etc) - or it was totally failing to get to grips with the truncated nature of short-form posts (like tweets).
+
+I took inspiration from Dimo Angelov's top2vec paper (https://arxiv.org/abs/2008.09470). The author bolted together an embedding layer - which generated 768-dimensional, dense vectors - with UMAP to reduce said dimensionality and finally HDBScan to yield a partial clustering of the documents. The centroid of the found clusters could then be reprojected into the embedding space, yielding a joint embedding of documents and topics.
+
+Lovely though the process is I couldn't achieve good results on my short-form data at the level of granularity I wanted. So I have adapted Dimo's approach, and it works really nicely. What follows is a first step towards a model that clusters tweets at the level of a particular claim, statistic or event. (This is not about identifying or evaluating claims and opinions per se.)
